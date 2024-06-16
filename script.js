@@ -119,9 +119,16 @@ newBook.addEventListener('click',  () => {
 
 const submitBtn = document.querySelector('.submit');
 submitBtn.addEventListener('click', (event) => {
-    const bookDetails = getInput(event);
-    addBooktoLibrary(bookDetails);
+    formCheck(event);
 });
+
+const cancelBtn = document.querySelector('.cancel');
+cancelBtn.addEventListener('click', (event) =>{
+    const inputs = document.querySelector('#bookForm');
+        event.preventDefault(); 
+        bookForm.close(event.value);
+        inputs.reset();
+})
 
 function getInput(event) {
    const inputs = document.querySelector('#bookForm');
@@ -146,3 +153,57 @@ const indexNum = parseInt(event.target.parentNode.dataset.indexNumber);
            }
     });
 }
+
+function formCheck (event) {
+    const title = checkTitle();
+    const author = checkAuthor();
+    const pages = checkPages();
+    
+
+ if(title && author && pages) {
+    const bookDetails = getInput(event);
+        addBooktoLibrary(bookDetails);
+ }
+   
+}
+
+
+function checkTitle() {
+    const title = document.querySelector('#title');
+    if (title.validity.valueMissing) {
+        console.log('wrong');
+        title.setCustomValidity('Please Include A Title');
+    }
+    else {
+        console.log('right');
+        title.setCustomValidity('');
+        return true;
+    }
+}
+
+function checkAuthor() {
+    const author = document.querySelector('#author');
+
+    if (author.validity.valueMissing) {
+        console.log('wrong');
+        author.setCustomValidity('Please Include An Author');
+    }
+    else {
+        console.log('right');
+        author.setCustomValidity('');
+        return true;
+         }
+    }
+
+    function checkPages() {
+        const pages = document.querySelector('#pages');
+
+        if(pages.validity.valueMissing){
+            pages.setCustomValidity('Please Include Pages');
+            
+        }
+        else {
+            pages.setCustomValidity('');
+            return true;
+        }
+    }
